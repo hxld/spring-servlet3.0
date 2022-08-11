@@ -5,6 +5,7 @@ import com.atguigu.service.HelloService;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 import javax.servlet.annotation.HandlesTypes;
 import java.util.Set;
 
@@ -26,13 +27,16 @@ public class MyServletContainerInitializer implements ServletContainerInitialize
      * @param servletContext
      * @throws ServletException
      */
-
-
     @Override
     public void onStartup(Set<Class<?>> set, ServletContext servletContext) throws ServletException {
         System.out.println("感兴趣的类型：" );
-        for (Class  clazz  :set) {
+        for (Class<?>  clazz  :set) {
             System.out.println(clazz);
         }
+
+
+        //注册组件
+        ServletRegistration.Dynamic servlet = servletContext.addServlet("HelloServlet", new HelloServlet());
+        servlet.addMapping("/hello");
     }
 }
